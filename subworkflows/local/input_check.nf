@@ -7,12 +7,14 @@ include { SAMPLESHEET_CHECK } from '../../modules/local/samplesheet_check'
 workflow INPUT_CHECK {
     take:
     samplesheet // file: /path/to/samplesheet.csv
+    fastq_dir   // dir:  /path/to/fastq_dir
+    clinical // boolean: true/false
 
     main:
-    SAMPLESHEET_CHECK ( samplesheet )
+    SAMPLESHEET_CHECK ( samplesheet, fastq_dir, clinical )
         .csv
         .splitCsv ( header:true, sep:',' )
-        .map { create_fastq_channel(it) }
+        .map { create_fastq_channel(it, params.clinical) }
         .set { reads }
 
     emit:
@@ -21,11 +23,17 @@ workflow INPUT_CHECK {
 }
 
 // Function to get list of [ meta, [ fastq_1, fastq_2 ] ]
-def create_fastq_channel(LinkedHashMap row) {
+def create_fastq_channel(LinkedHashMap row, boolean clinical) {
     // create meta map
     def meta = [:]
     meta.id         = row.sample
     meta.single_end = row.single_end.toBoolean()
+
+    if (clinical) {
+        meta.assay = row.assay
+        meta.status = row.status
+        meta.specimen_number = row.specimen_number
+    }
 
     // add path(s) of the fastq file(s) to the meta map
     def fastq_meta = []

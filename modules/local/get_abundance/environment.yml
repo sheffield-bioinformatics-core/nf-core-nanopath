@@ -1,0 +1,9 @@
+name: get_abundance
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - pandas
+  - requests
+  - numpy

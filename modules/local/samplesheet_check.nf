@@ -2,26 +2,33 @@ process SAMPLESHEET_CHECK {
     tag "$samplesheet"
     label 'process_single'
 
-    conda "conda-forge::python=3.8.3"
+    conda "conda-forge::python=3.8.3 pandas openpyxl pathlib"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/python:3.8.3' :
         'biocontainers/python:3.8.3' }"
 
     input:
     path samplesheet
+    val fastq_dir
+    val clinical
 
     output:
-    path '*.csv'       , emit: csv
+    path '*.valid.csv'       , emit: csv
     path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
-    script: // This script is bundled with the pipeline, in nf-core/nanopath/bin/
+    script: 
+    // Set fastqDir to fastq_dir path provided or leave as empty string
+    def fastqDir = params.fastq_dir ? "--fastq_dir ${fastq_dir}" : ""
+    def clinical = params.clinical ? "--clinical" : ""
     """
     check_samplesheet.py \\
         $samplesheet \\
-        samplesheet.valid.csv
+        samplesheet.valid.csv \\
+        $fastqDir \\
+        $clinical \\
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

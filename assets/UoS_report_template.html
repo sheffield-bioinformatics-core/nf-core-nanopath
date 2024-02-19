@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/arial-nova" rel="stylesheet">
+    <title>{{ title }}</title>
+    {{ resources }}
+    {{ script }}
+</head>
+<body style="line-height: 1;">
+  <div class="navbar navbar-branded mb-4">
+      <div class="container" style="flex-wrap: nowrap;">
+        <div>
+          <h1>{{ title }}</h1>
+          <p class="lead">{{ lead }}</p>
+        </div>
+        <div class="float-right">
+            <img src="{{ logo }}"
+            style="object-fit:contain;
+                     width:200px;
+                     height:auto;"
+            alt="UoS logo"></img>
+        </div>
+      </div>
+  </div>
+  <div class="container mt-4">
+          {{ div }}
+</body>
+</html>

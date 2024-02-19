@@ -1,0 +1,18 @@
+name: read_clustering
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - numba
+  - llvmlite
+  - pandas
+  - pyarrow
+  - matplotlib-base
+  - datashader
+  - holoviews
+  - bokeh
+  - scikit-learn
+  - hdbscan
+  - umap-learn
+  - joblib

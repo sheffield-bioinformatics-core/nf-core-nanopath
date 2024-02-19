@@ -4,6 +4,7 @@
 
 import nextflow.Nextflow
 import groovy.text.SimpleTemplateEngine
+import groovy.json.JsonSlurper
 
 class WorkflowNanopath {
 
@@ -14,9 +15,9 @@ class WorkflowNanopath {
         genomeExistsError(params, log)
 
 
-        if (!params.fasta) {
-            Nextflow.error "Genome fasta file not specified with e.g. '--fasta genome.fa' or via a detectable config file."
-        }
+        // if (!params.fasta) {
+        //     Nextflow.error "Genome fasta file not specified with e.g. '--fasta genome.fa' or via a detectable config file."
+        // }
     }
 
     //
@@ -75,5 +76,12 @@ class WorkflowNanopath {
                 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
             Nextflow.error(error_string)
         }
+    }
+
+    // Function that parses fastp json output file to get total number of reads after trimming
+    //
+    public static Integer getFastpReadsAfterFiltering(json_file) {
+        def Map json = (Map) new JsonSlurper().parseText(json_file.text).get('summary')
+        return json['after_filtering']['total_reads'].toInteger()
     }
 }
