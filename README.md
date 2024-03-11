@@ -29,7 +29,7 @@
       - Filter out samples with no reads left after FASTP.
       - Run ([`FASTQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)) on the processed reads.
 
-4. **Classfy and Cluster:**
+4. **Classify and Cluster:**
       - If specified, remove unclassified reads using ([`KRAKEN2`](https://github.com/DerrickWood/kraken2)).
       - Subset reads based on specified parameters (default 100k reads to keep memory requirements reasonable).
       - Perform k-mer frequency analysis with KMER_FREQS.
@@ -54,7 +54,7 @@
 9. **Generate Reports:**
       - If report generation is chosen:
          - Generate HTML reports.
-         
+
 ## Usage
 
 > **Note**
