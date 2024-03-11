@@ -12,17 +12,9 @@
 
 ## Introduction
 
-**nf-core/nanopath** is a bioinformatics pipeline that ...
+**nf-core/nanopath** pipeline is a bioinformatics tool designed for the processing of nanopore 16S/ITS sequencing data. It employs advanced clustering methods to group similar genetic sequences, facilitating the classification and reporting of bacterial and fungal constituents within input samples. The utilization of these clustering techniques contributes to a reduction in noise, minimizing the occurrence of false negatives and positives in the results. The pipeline thus serves as a reliable resource for obtaining precise insights into the microbial composition of the analyzed samples especially wihin the clinical setting. 
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
-
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
+# ![NanopathPipeline](docs/images/16S Pipeline.png)
 
 1. Initialize the data:
       If a fastq directory is provided:
