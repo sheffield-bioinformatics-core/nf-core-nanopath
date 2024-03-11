@@ -14,7 +14,7 @@
 
 **nf-core/nanopath** pipeline is a bioinformatics tool designed for the processing of nanopore 16S/ITS sequencing data. It employs advanced clustering methods to group similar genetic sequences, facilitating the classification and reporting of bacterial and fungal constituents within input samples. The utilization of these clustering techniques contributes to a reduction in noise, minimizing the occurrence of false negatives and positives in the results. The pipeline thus serves as a reliable resource for obtaining precise insights into the microbial composition of the analyzed samples especially wihin the clinical setting. 
 
-# ![NanopathPipeline](docs/images/16S Pipeline.png)
+# ![NanopathPipeline](docs/images/16S_Pipeline.png)
 
 1. Initialize the data:
       If a fastq directory is provided:
