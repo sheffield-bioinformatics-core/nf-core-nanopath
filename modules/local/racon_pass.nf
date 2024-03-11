@@ -4,7 +4,7 @@ process RACON_PASS {
     conda "bioconda::minimap2 racon"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/grep:3.4--hf43ccf4_4' :
-        'biocontainers/grep:3.4--hf43ccf4_4' }"
+        'docker.io/mbdabrowska1/racon-pass:1.0' }"
 
     input:
     tuple val(meta), path(draft_read), path(draft_log), path(corrected_reads), val(cluster)

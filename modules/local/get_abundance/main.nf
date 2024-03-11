@@ -5,7 +5,7 @@ process GET_ABUNDANCE {
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/grep:3.4--hf43ccf4_4' :
-        'biocontainers/grep:3.4--hf43ccf4_4' }"
+        'docker.io/mbdabrowska1/get-abundance:1.0' }"
 
     input:
     tuple val(meta), path(result_table)

@@ -5,7 +5,7 @@ process GENERATE_REPORTS {
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/grep:3.4--hf43ccf4_4' :
-        'biocontainers/grep:3.4--hf43ccf4_4' }"
+        'docker.io/mbdabrowska1/generate-reports:1.0' }"
 
     input:
     tuple val(meta), path(sample_result), path(fastp_results)
@@ -15,8 +15,8 @@ process GENERATE_REPORTS {
     path(samplesheet)
 
     output:
-    tuple env(kit), env(run_id), env(seq_start), emit: metadata
-    path "versions.yml",                         emit: versions
+    tuple val(meta), path("patient_report*.html"), emit: report
+    path "versions.yml",                           emit: versions
 
     script:
     def revision=workflow.revision

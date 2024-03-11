@@ -5,7 +5,7 @@ process JOIN_RESULTS {
     conda "bioconda::grep=3.4"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/grep:3.4--hf43ccf4_4' :
-        'biocontainers/grep:3.4--hf43ccf4_4' }"
+        'docker.io/ubuntu' }"
 
     input:
     tuple val(meta), path(logs)
