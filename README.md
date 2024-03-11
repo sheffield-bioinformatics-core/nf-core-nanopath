@@ -24,9 +24,44 @@
      workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+1. Initialize the data:
+      If a fastq directory is provided:
+         Concatenate fastq files using CAT_FASTQS.
 
+2. Validate input:
+      Use the INPUT_CHECK subworkflow to read samplesheet, validate, and stage input files.
+      Branch reads based on their status (discontinued or samples).
+
+3. Perform Quality Control:
+      Run ([`FASTP`](https://github.com/OpenGene/fastp)) for quality control, filtering, and preprocessing.
+      Filter out samples with no reads left after FASTP.
+      Run ([`FASTQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)) on the processed reads.
+
+4. Classfy and Cluster:
+      If specified, remove unclassified reads using ([`KRAKEN2`](https://github.com/DerrickWood/kraken2)).
+      Subset reads based on specified parameters (default 100k reads to keep memory requirements reasonable).
+      Perform k-mer frequency analysis with KMER_FREQS.
+      Perform read clustering with READ_CLUSTERING using ([`HDBSCAN`](https://github.com/scikit-learn-contrib/hdbscan)) and ([`UMAP`](https://umap-learn.readthedocs.io/en/latest/)).
+
+5. Split Clusters and Correct Errors:
+      Split clusters.
+      Perform error correction using ([`CANU`](https://github.com/marbl/canu)).
+
+6. Select and Polish Draft:
+      Select draft reads using ([`FASTANI`](https://github.com/ParBLiSS/FastANI)).
+      Polish drafts using ([`RACON`](https://github.com/isovic/racon)).
+      Generate final consensus using ([`MEDAKA`](https://github.com/nanoporetech/medaka)).
+
+7. Classify Taxonomically:
+      Based on chosen tool, classify consensus sequences with ([`BLAST`](https://www.ncbi.nlm.nih.gov/books/NBK279690/)), ([`SEQMATCH`](https://github.com/rdpstaff/SequenceMatch)), ([`KRAKEN`](https://github.com/DerrickWood/kraken2)) or all of them. 
+      Join classification results using JOIN_RESULTS.
+
+8. Estimate Abundace:
+      Estimate abundance per sample per detected species. 
+
+9. Generate Reports:
+      If report generation is chosen:
+         Generate HTML reports.
 ## Usage
 
 > **Note**
