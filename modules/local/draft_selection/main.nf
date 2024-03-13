@@ -4,7 +4,7 @@ process DRAFT_SELECTION {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/grep:3.4--hf43ccf4_4' :
+        'docker://quay.io/biocontainers/fastani:1.34--h4dfc31f_1' :
         'biocontainers/fastani:1.34--h4dfc31f_1' }"
 
     input:

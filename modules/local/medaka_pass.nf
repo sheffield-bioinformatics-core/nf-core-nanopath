@@ -3,7 +3,7 @@ process MEDAKA_PASS {
 
     conda "bioconda::medaka=1.4.4"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/grep:3.4--hf43ccf4_4' :
+        'docker://quay.io/biocontainers/medaka:1.4.4--py38h130def0_0' :
         'biocontainers/medaka:1.4.4--py38h130def0_0' }"
 
     input:

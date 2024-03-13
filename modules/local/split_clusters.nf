@@ -4,7 +4,7 @@ process SPLIT_CLUSTERS {
 
     conda "bioconda::seqtk"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/grep:3.4--hf43ccf4_4' :
+        'docker://quay.io/biocontainers/seqtk:1.4--he4a0461_1' :
         'biocontainers/seqtk:1.4--he4a0461_1' }"
 
     input:
