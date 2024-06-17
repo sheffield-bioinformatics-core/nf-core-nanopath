@@ -128,6 +128,9 @@ workflow NANOPATH {
         PROCESS_METADATA (
             ch_metadata_files.collect()
         )
+        ch_meta_final = PROCESS_METADATA.out.metadata
+    } else {
+        ch_meta_final = Channel.of([params.kit, params.run_id, params.seq_start])
     }
 
     FASTP (
