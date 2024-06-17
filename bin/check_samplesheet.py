@@ -12,7 +12,7 @@ from collections import Counter
 from pathlib import Path
 import pandas as pd
 import re
-import itertools
+import warnings
 
 logger = logging.getLogger()
 
@@ -152,7 +152,9 @@ class RowChecker:
         matching_files = list(fastq_dir.glob(pattern))
         
         if len(matching_files) == 0:
-            raise FileNotFoundError("The matching FASTQ file does not exist in the directory: {fastq_dir} for file: {filename}".format(fastq_dir=fastq_dir, filename=filename))
+            warnings.warn("No matching FASTQ file found in the directory: {fastq_dir} for file: {filename}".format(fastq_dir=fastq_dir, filename=filename))
+            row["status"] = "discontinued"
+            return None
         elif len(matching_files) > 1:
             raise FileNotFoundError("Multiple matching FASTQ files found in the directory: {fastq_dir} for file: {filename}".format(fastq_dir=fastq_dir, filename=filename))
         
