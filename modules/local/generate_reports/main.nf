@@ -4,7 +4,7 @@ process GENERATE_REPORTS {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/grep:3.4--hf43ccf4_4' :
+        'docker://mbdabrowska1/generate-reports:1.0' :
         'docker.io/mbdabrowska1/generate-reports:1.0' }"
 
     input:
@@ -42,10 +42,10 @@ process GENERATE_REPORTS {
         --negative ${negative} \
         --positive ${positive} \
         --reads_count \$READS_COUNT \
-        --kit ${kit} \
+        --kit "${kit}" \
         --report_template ${report_template} \
         --logo ${logo} \
-        --run_id ${run_id} \
+        --run_id "${run_id}" \
         --seq_start "${seq_start}"
         
     cat <<-END_VERSIONS > versions.yml
