@@ -290,7 +290,7 @@ workflow NANOPATH {
             ch_reporting,
             ch_controls.positive.toList(),
             ch_controls.negative.toList(),
-            PROCESS_METADATA.out.metadata,
+            ch_meta_final,
             ch_input
         )
     }
