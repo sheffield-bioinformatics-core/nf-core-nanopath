@@ -109,20 +109,36 @@ def choose_classification(dataframe):
     else:
         return dataframe
 
-
 def merge_abundance(dfs, data, tax_level):
-    df_final = reduce(lambda left,right: pd.merge(left,right,on='taxid',how='outer').fillna(0), dfs)
-    all_tax=[]
+    df_final = reduce(lambda left, right: pd.merge(left, right, on='taxid', how='outer').fillna(0), dfs)
+    all_tax = []
+
     for index, row in df_final.iterrows():
         try:
-            all_tax.append(get_taxname_from_dmp(data, row["taxid"], tax_level))
+            # Handle collapsing for specific tax IDs at 'S' level
+            if tax_level == "S" and row["taxid"] in [1280, 985002, 1654388]:
+                all_tax.append("Staphylococcus aureus complex")
+            else:
+                all_tax.append(get_taxname_from_dmp(data, row["taxid"], tax_level))
         except:
             logger.error("Error getting taxonomic name for tax_id {} in merge_abundance.".format(row["taxid"]))
-            all_tax.append(get_taxname(row["taxid"], tax_level))
+            if tax_level == "S" and row["taxid"] in [1280, 985002, 1654388]:
+                all_tax.append("Staphylococcus aureus complex")
+            else:
+                all_tax.append(get_taxname(row["taxid"], tax_level))
+
     df_final["taxid"] = all_tax
+
+    # Collapse entries labeled as 'Staphylococcus aureus complex'
+    if tax_level == "S":
+        df_final.loc[df_final["taxid"] == "Staphylococcus aureus complex", "taxid"] = "Staphylococcus aureus complex"
+
+    # Group by taxid and sum the abundance values
     df_final_grp = df_final.groupby(["taxid"], as_index=False).sum()
     df_final_sorted = df_final_grp.sort_values(by='rel_abundance', ascending=False)
+
     return df_final_sorted
+
 
 
 def get_abundance(names,paths,tax_level, outfile):
