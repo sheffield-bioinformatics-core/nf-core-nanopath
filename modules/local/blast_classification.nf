@@ -3,8 +3,8 @@ process BLAST_CLASSIFICATION {
 
     conda "bioconda::blast"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/grep:3.4--hf43ccf4_4' :
-        'biocontainers/grep:3.4--hf43ccf4_4' }"
+        'docker://mbdabrowska1/full-classification:1.0' :
+        'docker.io/mbdabrowska1/full-classification:1.0' }"
 
     input:
     tuple val(meta), path(consensus), path(cluster_log), val(cluster)
@@ -21,7 +21,11 @@ process BLAST_CLASSIFICATION {
 
     """
     export BLASTDB=\$(dirname ${blast_db})
-    blastn -query $consensus -db \$(basename ${blast_db}) -task megablast -dust no -outfmt "10 sscinames staxids evalue length pident bitscore" -evalue 11 -max_hsps 50 -max_target_seqs 5 | sed 's/,/;/g' > ${prefix}_${cluster_id}_blastn_consensus_classification.csv
+    blastn -query $consensus -db \$(basename ${blast_db}) -task megablast -dust no -outfmt '10 sscinames staxids evalue length pident bitscore' -evalue 11 -max_hsps 50 -max_target_seqs 100 | 
+    sort -t ',' -k5nr -k6nr |
+    head -n5 | 
+    sed 's/,/;/g' > ${prefix}_${cluster_id}_blastn_consensus_classification.csv
+
     if [ -s ${prefix}_${cluster_id}_blastn_consensus_classification.csv ]; then
         echo "success"
     else
