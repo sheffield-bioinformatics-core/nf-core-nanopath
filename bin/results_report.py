@@ -76,7 +76,7 @@ def process_controls(ctrl):
         dataframe: Pandas dataframe with the control results
     """
     ctrl = ctrl[1:-1]
-    if ctrl == 'None':
+    if ctrl == '' or ctrl == 'None':
         control = None
     else:
         control = read_abundance_results(ctrl)
